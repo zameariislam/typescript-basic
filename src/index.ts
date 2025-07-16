@@ -253,3 +253,136 @@ function functionName<T>(parameter: T): T {
 // />;
 
 
+// nterfaces can define callable types but are more verbose.
+
+// interface AddFunction {
+//   (a: number, b: number): number;
+// }
+
+// const add: AddFunction = (a, b) => a + b;
+
+// let data: any;
+
+// data = "Hello"; // Valid
+// data = 123;     // Valid
+// data = { key: "value" }; // Valid
+
+// console.log(data.toUpperCase());
+
+// let data: unknown;
+
+// data = "Hello"; // Valid
+// data = 123;     // Valid
+// data = { key: "value" }; // Valid
+
+// // console.log(data.toUpperCase()); // Error: Object is of type 'unknown'
+// if (typeof data === "string") {
+//   console.log(data.toUpperCase()); // Safe usage after type check
+// }
+
+
+// type User = {
+//   id: number;
+//   name: string;
+// };
+
+// function isUser(input: unknown): input is User {
+//   return (
+//     typeof input === "object" &&
+//     input !== null &&
+//     "id" in input &&
+//     typeof (input as any).id === "number" &&
+//     "name" in input &&
+//     typeof (input as any).name === "string"
+//   );
+// }
+
+// function processUser(input: unknown) {
+//   if (isUser(input)) {
+//     console.log(`User ID: ${input.id}, Name: ${input.name}`);
+//   } else {
+//     console.log("Input is not a valid User.");
+//   }
+// }
+
+// processUser({ id: 1, name: "Alice" }); // Valid User
+// processUser({ id: "1", name: "Bob" }); // Invalid User
+
+// type Cat = { meow: () => void };
+// type Dog = { bark: () => void };
+// type Animal = Cat | Dog;
+
+// function isCat(animal: Animal): animal is Cat {
+//   return (animal as Cat).meow !== undefined;
+// }
+
+// function makeSound(animal: Cat | Dog) {
+//   if (isCat(animal)) {
+//     animal.meow(); // TypeScript knows it's a Cat
+//   } else {
+//     animal.bark(); // TypeScript knows it's a Dog
+//   }
+// }
+
+// type Order = {
+//   id: string;
+//   total: number;
+//   items: string[];
+// };
+
+// function isOrder(data: unknown): data is Order {
+//   return (
+//     typeof data === "object" &&
+//     data !== null &&
+//     "id" in data &&
+//     typeof (data as any).id === "string" &&
+//     "total" in data &&
+//     typeof (data as any).total === "number" &&
+//     "items" in data &&
+//     Array.isArray((data as any).items)
+//   );
+// }
+
+// function processOrder(json: string) {
+//   const parsedData: unknown = JSON.parse(json);
+
+//   if (isOrder(parsedData)) {
+//     console.log(`Processing order ${parsedData.id} with total: ${parsedData.total}`);
+//   } else {
+//     console.error("Invalid order data.");
+//   }
+// }
+
+// const validOrderJSON = '{"id": "123", "total": 50.5, "items": ["item1", "item2"]}';
+// processOrder(validOrderJSON);
+
+// const OrderStatus = {
+//   PENDING: "pending",
+//   SHIPPED: "shipped",
+//   DELIVERED: "delivered",
+//   CANCELLED: "cancelled"
+// } as const;
+// type OrderStatusValue = (typeof OrderStatus)[keyof typeof OrderStatus];
+
+
+
+// type Action =
+//   | { type: "ADD"; payload: number }
+//   | { type: "DELETE"; id: string };
+
+// const action = {
+//   type: "ADD",
+//   payload: 5,
+// } satisfies Action;
+
+// // TypeScript ensures `action` matches the `Action` type while still allowing type inference.
+
+// function handleAction(action: Action): void {
+//   if (action.type === "ADD") {
+//     console.log("Adding:", action.payload);
+//   } else {
+//     console.log("Deleting:", action.id);
+//   }
+// }
+
+// handleAction(action); // 
